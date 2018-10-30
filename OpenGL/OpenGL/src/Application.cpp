@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 using namespace std;
 
@@ -48,13 +49,22 @@ int main(void)
 	glewInit();
 
 	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
+		-0.5f, 0.0f, 0.0f,
+		 0.0f, -1.0f, 0.0f,
+		 1.0f, 0.0f, 0.0f,
+		 0.0f, 0.5f, 0.0f,
+	};
+
+	GLuint indices[] = {
+		0, 1, 2, 
+		2, 3, 0
 	};
 
 	VertexBuffer vb(vertices, sizeof(vertices));
 	vb.Bind();
+
+	IndexBuffer eb(indices, 6);
+	eb.Bind();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), 0);
 	glEnableVertexAttribArray(0);
@@ -64,7 +74,27 @@ int main(void)
 	glUseProgram(progrom);
 
 	GLint location = glGetUniformLocation(progrom, "u_Color");
-	
+	glUniform4f(location, 0.8f, 0.2f, 0.3f, 1.0f);
+
+	GLfloat model[] = {
+		0.5f, 0.0, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+	GLint modelLoc = glGetUniformLocation(progrom, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, model);
+
+
+	GLfloat view[] = {
+		1.0f, 0.0, 0.0f, 0.5f,
+		0.0f, 1.0f, 0.0f, 0.5f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+	GLint viewLoc = glGetUniformLocation(progrom, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, view);
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -74,14 +104,14 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
-		glUniform4f(location, 0.8f, 0.2f, 0.3f, 1.0f);
+		
 
 
 		//glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		//glBindVertexArray(0);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
