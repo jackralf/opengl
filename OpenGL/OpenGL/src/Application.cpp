@@ -6,6 +6,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Texture.h"
 
 using namespace std;
 
@@ -43,10 +44,10 @@ int main(void)
 	glewInit();
 
 	GLfloat vertices[] = {
-		-0.5f, 0.0f, 0.0f,
-		 0.0f, -1.0f, 0.0f,
-		 1.0f, 0.0f, 0.0f,
-		 0.0f, 0.5f, 0.0f,
+		-0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f, 1.0f, 0.0f, 0.0f, 0.0f
 	};
 
 	GLuint indices[] = {
@@ -60,8 +61,10 @@ int main(void)
 	IndexBuffer ib(indices, 6);
 	ib.bind();
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), 0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void *)(3 * sizeof(GL_FLOAT)));
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	Shader shader("res/shaders/Basic.shader");
@@ -77,14 +80,20 @@ int main(void)
 	};
 
 	GLfloat view[] = {
-		1.0f, 0.0, 0.0f, 0.5f,
-		0.0f, 1.0f, 0.0f, 0.5f,
+		1.0f, 0.0, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	shader.setUniformMatrix4fv("model", 1, GL_TRUE, model);
 	shader.setUniformMatrix4fv("view", 1, GL_TRUE, view);
 
+	Texture texure("res/image/icon.png");
+	texure.bind();
+	shader.setUniform1i("u_Texture", 0);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))

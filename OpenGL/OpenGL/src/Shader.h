@@ -23,8 +23,10 @@ public:
 	unsigned int compileShader(GLenum type, const std::string& source);
 
 	int getUniformLocation(const std::string& name);
+	void setUniform1i(const std::string& name, int value);
 	void setUniform4f(const std::string& name, float v1, float v2, float v3, float v4);
 	void setUniformMatrix4fv(const std::string& name, unsigned int count, bool transpose, const float* value);
+	
 private:
 	std::string m_FilePath;
 	unsigned int m_RendererId;
