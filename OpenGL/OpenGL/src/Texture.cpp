@@ -7,7 +7,7 @@ Texture::Texture(const std::string filepath)
 {
 	glGenTextures(1, &m_RendererId);
 	glBindTexture(GL_TEXTURE_2D, m_RendererId);
-
+	stbi_set_flip_vertically_on_load(1);
 	m_bufferData = stbi_load(filepath.c_str(), &m_Width, &m_height, &m_bpp, 4);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);

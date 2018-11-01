@@ -8,6 +8,8 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include <math.h>
+
 using namespace std;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -26,7 +28,7 @@ int main(void)
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -44,10 +46,10 @@ int main(void)
 	glewInit();
 
 	GLfloat vertices[] = {
-		-0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-		 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		 0.5f, 1.0f, 0.0f, 0.0f, 0.0f
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+		 -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
 	};
 
 	GLuint indices[] = {
@@ -56,10 +58,7 @@ int main(void)
 	};
 
 	VertexBuffer vb(vertices, sizeof(vertices));
-	vb.bind();
-
 	IndexBuffer ib(indices, 6);
-	ib.bind();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), 0);
 	glEnableVertexAttribArray(0);
@@ -71,29 +70,33 @@ int main(void)
 	shader.bind();
 	shader.setUniform4f("u_Color", 0.8f, 0.2f, 0.3f, 1.0f);
 	
+	float angle = 30;
+	float radian = angle * 3.14 / 180;
 
 	GLfloat model[] = {
-		0.5f, 0.0, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f,
+		cos(radian), sin(radian), 0.0f, 0.0f,
+		-sin(radian), cos(radian), 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
 
 	GLfloat view[] = {
-		1.0f, 0.0, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f, 0.0, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	shader.setUniformMatrix4fv("model", 1, GL_TRUE, model);
 	shader.setUniformMatrix4fv("view", 1, GL_TRUE, view);
 
-	Texture texure("res/image/icon.png");
+	Texture texure("res/image/bus.png");
 	texure.bind();
 	shader.setUniform1i("u_Texture", 0);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+
+	Renderer renderer;
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -104,13 +107,13 @@ int main(void)
 
 
 		
-
-
+		renderer.clear();
+		renderer.draw(vb, ib, shader);
 		//glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		//glBindVertexArray(0);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
