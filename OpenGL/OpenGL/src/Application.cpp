@@ -68,9 +68,9 @@ int main(void)
 
 	Shader shader("res/shaders/Basic.shader");
 	shader.bind();
-	shader.setUniform4f("u_Color", 0.8f, 0.2f, 0.3f, 1.0f);
+	shader.setUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
 	
-	float angle = 30;
+	float angle = 0;
 	float radian = angle * 3.14 / 180;
 
 	GLfloat model[] = {
@@ -81,15 +81,15 @@ int main(void)
 	};
 
 	GLfloat view[] = {
-		0.5f, 0.0, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	shader.setUniformMatrix4fv("model", 1, GL_TRUE, model);
 	shader.setUniformMatrix4fv("view", 1, GL_TRUE, view);
 
-	Texture texure("res/image/bus.png");
+	Texture texure("res/image/icon.png");
 	texure.bind();
 	shader.setUniform1i("u_Texture", 0);
 
