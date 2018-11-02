@@ -8,7 +8,9 @@
 #include "Shader.h"
 #include "Texture.h"
 
-#include <math.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -69,25 +71,18 @@ int main(void)
 	Shader shader("res/shaders/Basic.shader");
 	shader.bind();
 	shader.setUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
-	
-	float angle = 0;
-	float radian = angle * 3.14 / 180;
 
-	GLfloat model[] = {
-		cos(radian), sin(radian), 0.0f, 0.0f,
-		-sin(radian), cos(radian), 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	};
+	glm::mat4 model(1.0f);
+	model = glm::translate(model, glm::vec3(0.5f, 0.5f, 0.0f));
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
-	GLfloat view[] = {
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	};
-	shader.setUniformMatrix4fv("model", 1, GL_TRUE, model);
-	shader.setUniformMatrix4fv("view", 1, GL_TRUE, view);
+	glm::mat4 view(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+
+	glm::mat4 projection;
+	projection = glm::perspective(glm::radians(45.0f), float(640.0 / 640), 0.1f, 100.f);
+
+	shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, glm::value_ptr(projection * view * model));
 
 	Texture texure("res/image/icon.png");
 	texure.bind();

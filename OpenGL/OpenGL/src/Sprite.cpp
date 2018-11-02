@@ -5,10 +5,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Texture.h"
+#include "Shader.h"
 
 Sprite::Sprite(std::string filepath)
+	:m_Texture(nullptr)
 {
-		
+	m_Texture = new Texture(filepath);
+
 }
 
 Sprite::~Sprite()
@@ -29,5 +32,10 @@ void Sprite::setScale(float scale)
 void Sprite::setRotation(float angle)
 {
 	m_Transform = glm::rotate(m_Transform, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+}
+
+void Sprite::draw()
+{
+
 }
 
