@@ -2,6 +2,11 @@
 
 #include <string>
 
+struct Size{
+	int width;
+	int height;
+};
+
 class Texture
 {
 public:
@@ -10,6 +15,10 @@ public:
 
 	void bind(int slot = 0);
 	void unbind();
+
+	int getWidth() { return m_Width; }
+	int getHeight() { return m_height; }
+	Size getContentSize() { return { m_Width, m_height }; }
 
 private:
 	unsigned int m_RendererId;
