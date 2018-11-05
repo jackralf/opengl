@@ -63,7 +63,8 @@ void Sprite::setRotation(float angle)
 
 void Sprite::draw()
 {
-	
+	m_RendererCommand.init();
+	Renderer::getInstance()->addCommand(m_RendererCommand);
 
 	m_pVa->bind();
 	m_pShader->bind();
