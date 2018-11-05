@@ -31,7 +31,7 @@ int main(void)
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(960, 640, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -95,7 +95,7 @@ int main(void)
 	//Renderer renderer;
 
 	Sprite sprite("res/image/icon.png");
-	sprite.setScale(0.5);
+	//sprite.setScale(0.5);
 	sprite.setColor({ 255, 0, 0 });
 	sprite.setRotation(90);
 

@@ -13,7 +13,7 @@ Sprite::Sprite(std::string filepath)
 	:m_pTexture(nullptr), m_Transform(1.0f)
 {
 	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+		-2.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 		 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
 		 -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
@@ -63,6 +63,8 @@ void Sprite::setRotation(float angle)
 
 void Sprite::draw()
 {
+	
+
 	m_pVa->bind();
 	m_pShader->bind();
 	m_pShader->setUniformMatrix4fv("MVP", 1, GL_FALSE, glm::value_ptr(m_Transform));

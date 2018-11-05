@@ -3,6 +3,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include "Texture.h"
+#include "RendererCommand.h"
 
 class VertexArray;
 class VertexBuffer;
@@ -43,4 +44,6 @@ private:
 	VertexBuffer* m_pVb;
 	IndexBuffer* m_pIb;
 	VertexArray* m_pVa;
+
+	RendererCommand m_RendererCommand;
 };

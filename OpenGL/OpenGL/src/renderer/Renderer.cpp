@@ -3,6 +3,18 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 
+Renderer* Renderer::m_Instance = nullptr;
+Renderer::Renderer()
+	:m_Projection(1.0f)
+{
+
+}
+
+Renderer::~Renderer()
+{
+
+}
+
 void Renderer::draw(VertexBuffer& vb, IndexBuffer& ib, Shader& shader)
 {
 	vb.bind();
