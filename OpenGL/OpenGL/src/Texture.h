@@ -19,6 +19,7 @@ public:
 	int getWidth() { return m_Width; }
 	int getHeight() { return m_height; }
 	Size getContentSize() { return { m_Width, m_height }; }
+	unsigned int getTextureId() { return m_RendererId; }
 
 private:
 	unsigned int m_RendererId;

@@ -1,44 +1,32 @@
 #include "Sprite.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include "Texture.h"
-#include "Shader.h"
-#include "VertexArray.h"
-#include "IndexBuffer.h"
+#include "SpriteRenderer.h"
 
 Sprite::Sprite(std::string filepath)
 	:m_pTexture(nullptr), m_Transform(1.0f)
 {
-	GLfloat vertices[] = {
-		-2.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-		 -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
-	};
-
-	GLuint indices[] = {
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	m_pVb = new VertexBuffer(vertices, sizeof(vertices));
-	m_pIb = new IndexBuffer(indices, 6);
-
-	m_pVa = new VertexArray();
-	VertexBufferLayout layout;
-	layout.push<float>(3);
-	layout.push<float>(2);
-	m_pVa->addBuffer(*m_pVb, *m_pIb, layout);
-
 	m_pTexture = new Texture(filepath);
-	m_pShader = new Shader("res/shaders/Basic.shader");
-	m_ContentSize = m_pTexture->getContentSize();
+	m_SpriteInfo.textureId = m_pTexture->getTextureId();
+	m_SpriteInfo.transform = mat4(1);
 
-	m_pTexture->bind();
-	m_pShader->setUniform1i("u_Texture", 0);
+	auto size = Size{1,1};
+
+	vec3 BL = vec3(0,0,0);
+	vec3 BR = vec3(size.width, 0, 0);
+	vec3 TR = vec3(size.width, size.height, 0);
+	vec3 TL = vec3(0, size.height, 0);
+	m_SpriteInfo.pointInfo[0] = { BL, vec2(0, 0) };
+	m_SpriteInfo.pointInfo[1] = { BR, vec2(1, 0) };
+	m_SpriteInfo.pointInfo[2] = { TR, vec2(1, 1) };
+	m_SpriteInfo.pointInfo[3] = { TL, vec2(0, 1) };
+
+	m_SpriteInfo.indices[0] = 0;
+	m_SpriteInfo.indices[1] = 1;
+	m_SpriteInfo.indices[2] = 2;
+	m_SpriteInfo.indices[3] = 2;
+	m_SpriteInfo.indices[4] = 3;
+	m_SpriteInfo.indices[5] = 0;
 }
 
 Sprite::~Sprite()
@@ -63,14 +51,6 @@ void Sprite::setRotation(float angle)
 
 void Sprite::draw()
 {
-	m_RendererCommand.init();
-	Renderer::getInstance()->addCommand(m_RendererCommand);
-
-	m_pVa->bind();
-	m_pShader->bind();
-	m_pShader->setUniformMatrix4fv("MVP", 1, GL_FALSE, glm::value_ptr(m_Transform));
-	m_pShader->setUniform4f("u_Color", m_Color.R / 255, m_Color.G / 255, m_Color.B / 255, m_Color.A / 255);
-
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	SpriteRenderer::getInstance()->add(&m_SpriteInfo);
 }
 

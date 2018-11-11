@@ -1,14 +1,7 @@
 #pragma once
 
-#include <string>
-#include <glm/glm.hpp>
+#include "defines.h"
 #include "Texture.h"
-#include "RendererCommand.h"
-
-class VertexArray;
-class VertexBuffer;
-class IndexBuffer;
-class Shader;
 
 struct Color {
 	float R;
@@ -20,30 +13,40 @@ struct Color {
 		:R(r),G(g),B(b),A(255) {}
 };
 
+struct SpritePointInfo {
+	vec3 vertices;
+	vec2 uvCoords;
+};
+
+struct SpriteInfo {
+	mat4 transform;
+	uint32 textureId;
+	SpritePointInfo pointInfo[4];
+	unsigned int indices[6];
+};
+
 class Sprite
 {
 public:
-	Sprite(std::string filepath);
+	Sprite(String filepath);
 	~Sprite();
 
 	void setPosition(float x, float y);
 	void setScale(float scale);
 	void setRotation(float angle);
 	void setColor(Color color) { m_Color = color; };
-	glm::mat4 getTransform() { return m_Transform; }
+	mat4 getTransform() { return m_Transform; }
 
 	void draw();
 private:
-	std::string m_FilePath;
-	glm::mat4 m_Transform;
+	String m_FilePath;
+	SpriteInfo m_SpriteInfo;
+
+
+	mat4 m_Transform;
 	Texture* m_pTexture;
 	Color m_Color{255,255,255};
 
-	Shader* m_pShader;
 	Size m_ContentSize;
-	VertexBuffer* m_pVb;
-	IndexBuffer* m_pIb;
-	VertexArray* m_pVa;
 
-	RendererCommand m_RendererCommand;
 };

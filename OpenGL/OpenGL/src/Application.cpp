@@ -3,15 +3,11 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "Sprite.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "Sprite.h"
+#include "SpriteRenderer.h"
+
+
 
 using namespace std;
 
@@ -48,46 +44,6 @@ int main(void)
 	// Initialize GLEW to setup the OpenGL Function pointers
 	glewInit();
 
-	//GLfloat vertices[] = {
-	//	-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-	//	 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-	//	 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-	//	 -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
-	//};
-
-	//GLuint indices[] = {
-	//	0, 1, 2, 
-	//	2, 3, 0
-	//};
-
-	//VertexBuffer vb(vertices, sizeof(vertices));
-	//IndexBuffer ib(indices, 6);
-
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), 0);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void *)(3 * sizeof(GL_FLOAT)));
-	//glEnableVertexAttribArray(1);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Shader shader("res/shaders/Basic.shader");
-	//shader.bind();
-	//shader.setUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
-
-	//glm::mat4 model(1.0f);
-	//model = glm::translate(model, glm::vec3(0.5f, 0.5f, 0.0f));
-	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-	//glm::mat4 view(1.0f);
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-
-	//glm::mat4 projection;
-	//projection = glm::perspective(glm::radians(45.0f), float(640.0 / 640), 0.1f, 100.f);
-
-	//shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, glm::value_ptr(projection * view * model));
-
-	//Texture texure("res/image/icon.png");
-	//texure.bind();
-	//shader.setUniform1i("u_Texture", 0);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -97,7 +53,8 @@ int main(void)
 	Sprite sprite("res/image/icon.png");
 	//sprite.setScale(0.5);
 	sprite.setColor({ 255, 0, 0 });
-	sprite.setRotation(90);
+	//sprite.setRotation(90);
+	sprite.draw();
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -106,7 +63,7 @@ int main(void)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		sprite.draw();
+		SpriteRenderer::getInstance()->draw();
 		
 		//renderer.clear();
 		//renderer.draw(vb, ib, shader);
