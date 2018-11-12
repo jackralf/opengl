@@ -32,30 +32,24 @@ void SpriteRenderer::draw()
 		mat4 transform = spriteInfo->transform;
 		auto textureId = spriteInfo->textureId;
 		//TODO
-		const float* vertices = &(spriteInfo->pointInfo->vertices.x);
+		GLfloat vertices[4 * 5];
+		unsigned int len = sizeof(spriteInfo->vertices) / sizeof(spriteInfo->vertices[0]);
+		for (unsigned int j = 0; j < len; j++) {
+			for (unsigned int k = 0; k < 5; k++) {
+				if (k < 3)
+					vertices[j * 5 + k] = spriteInfo->vertices[j][k];
+				else
+					vertices[j * 5 + k] = spriteInfo->uvCoords[j][k - 3];
+			}
+		}
+
 		const unsigned int* indices = &(spriteInfo->indices[0]);
-		/*auto vertices = spriteInfo.vertices;
-		auto uvCoords = spriteInfo.uvCoords;*/
-
-
-	/*	GLfloat vertices[] = {
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-			 -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
-		};*/
-
-		//GLuint indices[] = {
-		//	0, 1, 2,
-		//	2, 3, 0
-		//};
-
 
 		glActiveTexture(0);
 		glBindTexture(GL_TEXTURE_2D, textureId);
 
 		VertexBuffer vb(vertices, sizeof(vertices));
-		IndexBuffer ib(indices, sizeof(indices));
+		IndexBuffer ib(indices, 24);
 
 		VertexArray va;
 		VertexBufferLayout layout;

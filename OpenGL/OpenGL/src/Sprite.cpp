@@ -16,10 +16,14 @@ Sprite::Sprite(std::string filepath)
 	vec3 BR = vec3(size.width, 0, 0);
 	vec3 TR = vec3(size.width, size.height, 0);
 	vec3 TL = vec3(0, size.height, 0);
-	m_SpriteInfo.pointInfo[0] = { BL, vec2(0, 0) };
-	m_SpriteInfo.pointInfo[1] = { BR, vec2(1, 0) };
-	m_SpriteInfo.pointInfo[2] = { TR, vec2(1, 1) };
-	m_SpriteInfo.pointInfo[3] = { TL, vec2(0, 1) };
+	m_SpriteInfo.vertices[0] = BL;
+	m_SpriteInfo.vertices[1] = BR;
+	m_SpriteInfo.vertices[2] = TR;
+	m_SpriteInfo.vertices[3] = TL;
+	m_SpriteInfo.uvCoords[0] = vec2(0, 0);
+	m_SpriteInfo.uvCoords[1] = vec2(1, 0);
+	m_SpriteInfo.uvCoords[2] = vec2(1, 1);
+	m_SpriteInfo.uvCoords[3] = vec2(0, 1);
 
 	m_SpriteInfo.indices[0] = 0;
 	m_SpriteInfo.indices[1] = 1;

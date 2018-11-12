@@ -13,15 +13,11 @@ struct Color {
 		:R(r),G(g),B(b),A(255) {}
 };
 
-struct SpritePointInfo {
-	vec3 vertices;
-	vec2 uvCoords;
-};
-
 struct SpriteInfo {
 	mat4 transform;
 	uint32 textureId;
-	SpritePointInfo pointInfo[4];
+	vec3 vertices[4];
+	vec2 uvCoords[4];
 	unsigned int indices[6];
 };
 
