@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\glew;$(SolutionDir)OpenGL\Dependencies\glfw</AdditionalLibraryDirectories>
@@ -99,7 +99,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -125,6 +125,10 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\maths\mat4.cpp" />
+    <ClCompile Include="src\maths\vec2.cpp" />
+    <ClCompile Include="src\maths\vec3.cpp" />
+    <ClCompile Include="src\maths\vec4.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\renderer\RendererCommand.cpp" />
     <ClCompile Include="src\renderer\SpriteRenderer.cpp" />
@@ -274,6 +278,11 @@
   <ItemGroup>
     <ClInclude Include="src\defines.h" />
     <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\maths\mat4.h" />
+    <ClInclude Include="src\maths\maths.h" />
+    <ClInclude Include="src\maths\vec2.h" />
+    <ClInclude Include="src\maths\vec3.h" />
+    <ClInclude Include="src\maths\vec4.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
     <ClInclude Include="src\renderer\RendererCommand.h" />
     <ClInclude Include="src\renderer\SpriteRenderer.h" />

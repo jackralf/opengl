@@ -15,12 +15,12 @@ public:
 	~SpriteRenderer();
 
 
-	void add(const SpriteInfo* info) { m_SpriteInfoList.push_back(info); };
+	void add(SpriteInfo* info) { m_SpriteInfoList.push_back(info); };
 
 	void setup();
 	void draw();
 
 private:
 
-	std::vector<const SpriteInfo*> m_SpriteInfoList;
+	std::vector<SpriteInfo*> m_SpriteInfoList;
 };

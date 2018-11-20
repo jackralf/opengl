@@ -27,7 +27,7 @@ void SpriteRenderer::setup()
 void SpriteRenderer::draw()
 {
 	for (unsigned int i = 0; i < m_SpriteInfoList.size(); i++) {
-		auto& spriteInfo = m_SpriteInfoList[i];
+		auto spriteInfo = m_SpriteInfoList[i];
 
 		mat4 transform = spriteInfo->transform;
 		auto textureId = spriteInfo->textureId;
