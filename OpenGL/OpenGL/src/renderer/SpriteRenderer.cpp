@@ -57,17 +57,21 @@ void SpriteRenderer::draw()
 		layout.push<float>(2);
 		va.addBuffer(vb, ib, layout);
 
-		glm::mat4 view(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+		mat4 view(1.0f);
+		view = mat4::translate(vec3(0.0f, 0.0f, -101.0f));
 
-		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(45.0f), float(640.0 / 640), 0.1f, 100.f);
+		std::cout << transform << std::endl;
+		std::cout << view << std::endl;
+		std::cout << view * transform << std::endl;
+
+		mat4 projection;
+		projection = mat4::orthographic(0, 960, 0, 640, 0, 100);
 
 
 		Shader shader("res/shaders/Basic.shader");
 		shader.setUniform1i("u_Texture", 0);
 		shader.bind();
-		shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, glm::value_ptr(projection * view * transform));
+		shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, (projection * transform).elements);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}

@@ -56,10 +56,6 @@ int main(void)
 	//sprite.setRotation(90);
 	sprite.draw();
 
-	vec2 a(1.0f, 2.0f);
-	a += vec2(3.0f, 0.0f);
-	std::cout << a << std::endl;
-
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{

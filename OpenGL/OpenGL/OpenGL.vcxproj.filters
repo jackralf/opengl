@@ -1233,6 +1233,9 @@
     <ClInclude Include="src\maths\mat4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\maths\maths_fun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\image\bus.png">

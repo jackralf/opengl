@@ -10,7 +10,7 @@ Sprite::Sprite(std::string filepath)
 	m_SpriteInfo.textureId = m_pTexture->getTextureId();
 	m_SpriteInfo.transform = mat4(1);
 
-	auto size = Size{1,1};
+	auto size = m_pTexture->getContentSize();
 
 	vec3 BL = vec3(0,0,0);
 	vec3 BR = vec3(size.width, 0, 0);
@@ -40,17 +40,17 @@ Sprite::~Sprite()
 
 void Sprite::setPosition(float x, float y)
 {
-	m_Transform = glm::translate(m_Transform, glm::vec3(x, y, 0.0f));
+	m_Transform = mat4::translate(vec3(x, y, 0.0f));
 }
 
 void Sprite::setScale(float scale)
 {
-	m_Transform = glm::scale(m_Transform, glm::vec3(scale, scale, 1.0f));
+	m_Transform = mat4::scale(vec3(scale, scale, 1.0f));
 }
 
 void Sprite::setRotation(float angle)
 {
-	m_Transform = glm::rotate(m_Transform, glm::radians(-angle), glm::vec3(0.0f, 0.0f, 1.0f));
+	m_Transform = mat4::rotate(-angle, vec3(0.0f, 0.0f, 1.0f));
 }
 
 void Sprite::draw()
