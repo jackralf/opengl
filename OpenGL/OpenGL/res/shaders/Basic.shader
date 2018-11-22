@@ -9,12 +9,14 @@ uniform mat4 MVP;
 
 out vec2 TexCoord;
 out vec4 Color;
+out vec4 Position;
 
 void main()
 {
 	gl_Position = MVP * vec4(position.x, position.y, position.z, 1.0);
 	TexCoord = texCoord;
 	Color = color;
+	Position = gl_Position;
 }
 
 
@@ -24,10 +26,12 @@ void main()
 
 in vec2 TexCoord;
 in vec4 Color;
+in vec4 Position;
 
 uniform sampler2D u_Texture;
 
 void main()
 {
-	gl_FragColor = texture(u_Texture, TexCoord) * Color;
+	float intensity = 1.0 / length(Position.xy);
+	gl_FragColor = texture(u_Texture, TexCoord) * Color * intensity;
 }

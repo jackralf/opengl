@@ -26,7 +26,7 @@ void SpriteRenderer::init()
 	glEnableVertexAttribArray(SHADER_UV_INDEX);
 	glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, VERTEX_DATA_SIZE, (const void *)(3 * sizeof(float)));
 	glEnableVertexAttribArray(SHADER_COLOR_INDEX);
-	glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_FLOAT, GL_FALSE, VERTEX_DATA_SIZE, (const void *)(5 * sizeof(float)));
+	glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_DATA_SIZE, (const void *)(5 * sizeof(float)));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -61,24 +61,33 @@ void SpriteRenderer::submit(const Renderable* renderable)
 	auto& size = renderable->getSize();
 	auto& color = renderable->getColor();
 
+
+	int r = color.x * 255.0f;
+	int g = color.y * 255.0f;
+	int b = color.z * 255.0f;
+	int a = color.w * 255.0f;
+
+	unsigned int c = a << 24 | b << 16 | g << 8 | r;
+
+
 	m_Buffer->vertex = position;
 	m_Buffer->texCoord = vec2(0, 0);
-	m_Buffer->color = color;
+	m_Buffer->color = c;
 	m_Buffer++;
 
 	m_Buffer->vertex = vec3(position.x + size.width, position.y, position.z);
 	m_Buffer->texCoord = vec2(1, 0);
-	m_Buffer->color = color;
+	m_Buffer->color = c;
 	m_Buffer++;
 
 	m_Buffer->vertex = vec3(position.x + size.width, position.y + size.height, position.z);
 	m_Buffer->texCoord = vec2(1, 1);
-	m_Buffer->color = color;
+	m_Buffer->color = c;
 	m_Buffer++;
 
 	m_Buffer->vertex = vec3(position.x, position.y + size.height, position.z);
 	m_Buffer->texCoord = vec2(0, 1);
-	m_Buffer->color = color;
+	m_Buffer->color = c;
 	m_Buffer++;
 
 	m_IndexCount += 6;

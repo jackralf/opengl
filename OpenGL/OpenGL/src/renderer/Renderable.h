@@ -7,7 +7,7 @@ struct VertexData
 {
 	vec3 vertex;
 	vec2 texCoord;
-	vec4 color;
+	unsigned int color;
 };
 
 class Renderable

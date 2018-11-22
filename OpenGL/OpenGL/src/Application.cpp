@@ -20,6 +20,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+
+}
+
+
 int main(void)
 {
 	GLFWwindow* window;
@@ -40,14 +46,13 @@ int main(void)
 	glfwMakeContextCurrent(window);
 
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, cursor_position_callback);
 
 	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 	glewExperimental = GL_TRUE;
 	// Initialize GLEW to setup the OpenGL Function pointers
 	glewInit();
-
-	Texture texture("res/image/icon.png");
-	texture.bind();
+	glfwSwapInterval(0);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -71,9 +76,14 @@ int main(void)
 	shader.setUniform1i("u_Texture", 0);
 	shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, (projection * model).elements);
 
-	
+
+	Texture texture("res/image/icon.png");
+	texture.bind();
+
 	SpriteRenderer render;
 
+	unsigned int frame = 0;
+	double lastTime = glfwGetTime();
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -96,6 +106,15 @@ int main(void)
 
 		/* Poll for and process events */
 		glfwPollEvents();
+
+		frame++;
+		double currentTime = glfwGetTime();
+		if (currentTime - lastTime >= 1.0) {
+			std::cout << "fps:" << frame << std::endl;
+			frame = 0;
+			lastTime += 1.0;
+		}
+
 	}
 
 	glfwTerminate();
