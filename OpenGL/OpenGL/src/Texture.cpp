@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "stb_image.h"
-#include "Renderer.h"
+#include <GL/glew.h>
 
 Texture::Texture(const std::string filepath)
 	:m_Width(0), m_height(0), m_filePath(filepath), m_bpp(0), m_bufferData(nullptr)
@@ -21,13 +21,13 @@ Texture::~Texture()
 	glDeleteTextures(1, &m_RendererId);
 }
 
-void Texture::bind(int slot /*= 0*/)
+void Texture::bind(int slot /*= 0*/) const
 {
-	glActiveTexture(slot);
+	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, m_RendererId);
 }
 
-void Texture::unbind()
+void Texture::unbind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -1,11 +1,6 @@
 #pragma once
 
-#include <string>
-
-struct Size{
-	int width;
-	int height;
-};
+#include "defines.h"
 
 class Texture
 {
@@ -13,13 +8,13 @@ public:
 	Texture(const std::string filepath);
 	~Texture();
 
-	void bind(int slot = 0);
-	void unbind();
+	void bind(int slot = 0) const;
+	void unbind() const;
 
-	int getWidth() { return m_Width; }
-	int getHeight() { return m_height; }
-	Size getContentSize() { return { m_Width, m_height }; }
-	unsigned int getTextureId() { return m_RendererId; }
+	int getWidth() const { return m_Width; }
+	int getHeight() const { return m_height; }
+	Size getContentSize() const { return { m_Width, m_height }; }
+	unsigned int getTextureId() const { return m_RendererId; }
 
 private:
 	unsigned int m_RendererId;

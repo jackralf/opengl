@@ -17,3 +17,10 @@ using uint32 = uint32_t;
 //using mat4 = glm::mat4;
 
 using String = std::string;
+
+struct Size
+{
+	int width;
+	int height;
+};
+

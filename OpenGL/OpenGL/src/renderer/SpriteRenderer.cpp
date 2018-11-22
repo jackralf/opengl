@@ -1,17 +1,10 @@
 #include "SpriteRenderer.h"
-#include "Sprite.h"
-
-#include "defines.h"
-#include "Renderer.h"
-
-#include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "Shader.h"
 
 SpriteRenderer::SpriteRenderer()
+	:m_IndexCount(0)
 {
-
+	init();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -19,61 +12,92 @@ SpriteRenderer::~SpriteRenderer()
 
 }
 
-void SpriteRenderer::setup()
+void SpriteRenderer::init()
 {
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
 
-}
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, MAX_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
 
-void SpriteRenderer::draw()
-{
-	for (unsigned int i = 0; i < m_SpriteInfoList.size(); i++) {
-		auto spriteInfo = m_SpriteInfoList[i];
+	glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
+	glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, VERTEX_DATA_SIZE, 0);
+	glEnableVertexAttribArray(SHADER_UV_INDEX);
+	glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, VERTEX_DATA_SIZE, (const void *)(3 * sizeof(float)));
+	glEnableVertexAttribArray(SHADER_COLOR_INDEX);
+	glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_FLOAT, GL_FALSE, VERTEX_DATA_SIZE, (const void *)(5 * sizeof(float)));
 
-		mat4 transform = spriteInfo->transform;
-		auto textureId = spriteInfo->textureId;
-		//TODO
-		GLfloat vertices[4 * 5];
-		unsigned int len = sizeof(spriteInfo->vertices) / sizeof(spriteInfo->vertices[0]);
-		for (unsigned int j = 0; j < len; j++) {
-			for (unsigned int k = 0; k < 5; k++) {
-				if (k < 3)
-					vertices[j * 5 + k] = spriteInfo->vertices[j][k];
-				else
-					vertices[j * 5 + k] = spriteInfo->uvCoords[j][k - 3];
-			}
-		}
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		const unsigned int* indices = &(spriteInfo->indices[0]);
+	unsigned int* indices = new unsigned int[MAX_INDICES_SIZE];
+	int offset = 0;
+	for (int i = 0; i < MAX_INDICES_SIZE; i += 6)
+	{
+		indices[i] = offset + 0;
+		indices[i + 1] = offset + 1;
+		indices[i + 2] = offset + 2;
 
-		glActiveTexture(0);
-		glBindTexture(GL_TEXTURE_2D, textureId);
+		indices[i + 3] = offset + 2;
+		indices[i + 4] = offset + 3;
+		indices[i + 5] = offset + 0;
 
-		VertexBuffer vb(vertices, sizeof(vertices));
-		IndexBuffer ib(indices, 24);
-
-		VertexArray va;
-		VertexBufferLayout layout;
-		layout.push<float>(3);
-		layout.push<float>(2);
-		va.addBuffer(vb, ib, layout);
-
-		mat4 view(1.0f);
-		view = mat4::translate(vec3(0.0f, 0.0f, -101.0f));
-
-		std::cout << transform << std::endl;
-		std::cout << view << std::endl;
-		std::cout << view * transform << std::endl;
-
-		mat4 projection;
-		projection = mat4::orthographic(0, 960, 0, 640, 0, 100);
-
-
-		Shader shader("res/shaders/Basic.shader");
-		shader.setUniform1i("u_Texture", 0);
-		shader.bind();
-		shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, (projection * transform).elements);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		offset += 4;
 	}
+	m_IBO = new IndexBuffer(indices, MAX_INDICES_SIZE);
+
+	glBindVertexArray(0);
 }
 
+void SpriteRenderer::begin()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	m_Buffer = (VertexData*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+}
+
+void SpriteRenderer::submit(const Renderable* renderable)
+{
+	auto& position = renderable->getPosition();
+	auto& size = renderable->getSize();
+	auto& color = renderable->getColor();
+
+	m_Buffer->vertex = position;
+	m_Buffer->texCoord = vec2(0, 0);
+	m_Buffer->color = color;
+	m_Buffer++;
+
+	m_Buffer->vertex = vec3(position.x + size.width, position.y, position.z);
+	m_Buffer->texCoord = vec2(1, 0);
+	m_Buffer->color = color;
+	m_Buffer++;
+
+	m_Buffer->vertex = vec3(position.x + size.width, position.y + size.height, position.z);
+	m_Buffer->texCoord = vec2(1, 1);
+	m_Buffer->color = color;
+	m_Buffer++;
+
+	m_Buffer->vertex = vec3(position.x, position.y + size.height, position.z);
+	m_Buffer->texCoord = vec2(0, 1);
+	m_Buffer->color = color;
+	m_Buffer++;
+
+	m_IndexCount += 6;
+}
+
+void SpriteRenderer::end()
+{
+	glUnmapBuffer(GL_ARRAY_BUFFER);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void SpriteRenderer::flush()
+{
+	glBindVertexArray(m_VAO);
+	m_IBO->bind();
+	
+	glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
+
+	m_IBO->unbind();
+	glBindVertexArray(0);
+	m_IndexCount = 0;
+}

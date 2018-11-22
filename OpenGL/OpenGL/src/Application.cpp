@@ -5,8 +5,10 @@
 
 
 #include "Sprite.h"
+#include "Shader.h"
 #include "SpriteRenderer.h"
-
+#include <math.h>
+#include "Texture.h"
 
 
 using namespace std;
@@ -44,17 +46,33 @@ int main(void)
 	// Initialize GLEW to setup the OpenGL Function pointers
 	glewInit();
 
+	Texture texture("res/image/icon.png");
+	texture.bind();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	//Renderer renderer;
+	std::vector<Sprite*> spriteList;
+	for (int x = 0; x < 960; x += 10.f) {
+		for (int y = 0; y < 640; y += 10.f) {
+			auto sp = new Sprite("res/image/icon.png");
+			sp->setPosition(x, y);
+			sp->setColor(vec4(x / 960.0f, y / 640.0f, (x + y)/ (960.0f + 640.0f), 1.0f));
+			spriteList.push_back(sp);
+		}
+	}
 
-	Sprite sprite("res/image/icon.png");
-	//sprite.setScale(0.5);
-	sprite.setColor({ 255, 0, 0 });
-	//sprite.setRotation(90);
-	sprite.draw();
+	//Renderer renderer;
+	Shader shader("res/shaders/Basic.shader");
+	shader.bind();
+	
+	mat4 projection = mat4::orthographic(0, 960, 0, 640, 0, 1000);
+	mat4 model(1.0f);
+	shader.setUniform1i("u_Texture", 0);
+	shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, (projection * model).elements);
+
+	
+	SpriteRenderer render;
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -63,17 +81,15 @@ int main(void)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		SpriteRenderer::getInstance()->draw();
+		render.begin();
 		
-		//renderer.clear();
-		//renderer.draw(vb, ib, shader);
+		for (auto sp : spriteList) {
+			render.submit(sp);
+		}
 
+		render.end();
 
-		//glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		//glBindVertexArray(0);
-
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		render.flush();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
