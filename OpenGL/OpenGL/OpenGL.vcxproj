@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\graphics;$(SolutionDir)OpenGL\src\graphics\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\glew;$(SolutionDir)OpenGL\Dependencies\glfw</AdditionalLibraryDirectories>
@@ -99,7 +99,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glew\include;$(SolutionDir)OpenGL\Dependencies\glfw\include;$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\vendor;$(SolutionDir)OpenGL\src\vendor\stb_image;$(SolutionDir)OpenGL\src\graphics;$(SolutionDir)OpenGL\src\graphics\renderer;$(SolutionDir)OpenGL\src\maths;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -124,20 +124,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\maths\mat4.cpp" />
     <ClCompile Include="src\maths\vec2.cpp" />
     <ClCompile Include="src\maths\vec3.cpp" />
     <ClCompile Include="src\maths\vec4.cpp" />
-    <ClCompile Include="src\renderer\Renderer.cpp" />
-    <ClCompile Include="src\renderer\SpriteRenderer.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Sprite.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\graphics\renderer\Renderer.cpp" />
+    <ClCompile Include="src\graphics\renderer\SpriteRenderer.cpp" />
+    <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\graphics\Sprite.cpp" />
+    <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\graphics\VertexArray.cpp" />
+    <ClCompile Include="src\graphics\VertexBuffer.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -276,19 +277,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\defines.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\graphics\IndexBuffer.h" />
     <ClInclude Include="src\maths\mat4.h" />
     <ClInclude Include="src\maths\maths.h" />
     <ClInclude Include="src\maths\maths_fun.h" />
     <ClInclude Include="src\maths\vec2.h" />
     <ClInclude Include="src\maths\vec3.h" />
     <ClInclude Include="src\maths\vec4.h" />
-    <ClInclude Include="src\renderer\Renderable.h" />
-    <ClInclude Include="src\renderer\Renderer.h" />
-    <ClInclude Include="src\renderer\SpriteRenderer.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\Sprite.h" />
-    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\graphics\renderer\Renderable.h" />
+    <ClInclude Include="src\graphics\renderer\Renderer.h" />
+    <ClInclude Include="src\graphics\renderer\SpriteRenderer.h" />
+    <ClInclude Include="src\graphics\Shader.h" />
+    <ClInclude Include="src\graphics\Sprite.h" />
+    <ClInclude Include="src\graphics\Texture.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_vector_relational.hpp" />
@@ -530,9 +531,10 @@
     <ClInclude Include="src\vendor\glm\vec4.hpp" />
     <ClInclude Include="src\vendor\glm\vector_relational.hpp" />
     <ClInclude Include="src\vendor\stb_image\stb_image.h" />
-    <ClInclude Include="src\VertexArray.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
-    <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\graphics\VertexArray.h" />
+    <ClInclude Include="src\graphics\VertexBuffer.h" />
+    <ClInclude Include="src\graphics\VertexBufferLayout.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\image\bus.png" />

@@ -24,6 +24,7 @@ public:
 
 	int getUniformLocation(const std::string& name);
 	void setUniform1i(const std::string& name, int value);
+	void setUniform2f(const std::string& name, float v1, float v2);
 	void setUniform4f(const std::string& name, float v1, float v2, float v3, float v4);
 	void setUniformMatrix4fv(const std::string& name, unsigned int count, bool transpose, const float* value);
 	

@@ -1,8 +1,6 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
+#include "Window.h"
 
+#include <iostream>
 
 #include "Sprite.h"
 #include "Shader.h"
@@ -11,48 +9,11 @@
 #include "Texture.h"
 
 
-using namespace std;
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-	cout << key << action << endl;
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
-}
-
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-
-}
-
-
 int main(void)
 {
-	GLFWwindow* window;
+	Window window("hello", 960, 640);
 
-	/* Initialize the library */
-	if (!glfwInit())
-		return -1;
-
-	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(960, 640, "Hello World", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-
-	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, cursor_position_callback);
-
-	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
-	glewExperimental = GL_TRUE;
-	// Initialize GLEW to setup the OpenGL Function pointers
-	glewInit();
-	glfwSwapInterval(0);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -84,12 +45,13 @@ int main(void)
 
 	unsigned int frame = 0;
 	double lastTime = glfwGetTime();
-	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
-	{
-		/* Render here */
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+	while (!window.closed())
+	{		
+		window.clear();
+
+		float x, y;
+		window.getMousePosition(x, y);
+		shader.setUniform2f("light_pos",  x / 960 - 0.5, (640.0f - y) / 640 - 0.5);
 
 		render.begin();
 		
@@ -101,11 +63,6 @@ int main(void)
 
 		render.flush();
 
-		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
-
-		/* Poll for and process events */
-		glfwPollEvents();
 
 		frame++;
 		double currentTime = glfwGetTime();
@@ -115,9 +72,9 @@ int main(void)
 			lastTime += 1.0;
 		}
 
+		window.update();
 	}
 
-	glfwTerminate();
 	return 0;
 }
 

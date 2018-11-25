@@ -28,10 +28,11 @@ in vec2 TexCoord;
 in vec4 Color;
 in vec4 Position;
 
+uniform vec2 light_pos;
 uniform sampler2D u_Texture;
 
 void main()
 {
-	float intensity = 1.0 / length(Position.xy);
+	float intensity = 1.0 / length(Position.xy - light_pos);
 	gl_FragColor = texture(u_Texture, TexCoord) * Color * intensity;
 }
