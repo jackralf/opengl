@@ -25,7 +25,11 @@ bool Window::init()
 {
 	if (!glfwInit())
 		return false;
-
+    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	m_window = glfwCreateWindow(m_Width, m_height, m_Name.c_str(), NULL, NULL);
 	if (!m_window)
 	{
@@ -46,6 +50,7 @@ bool Window::init()
 	glewInit();
 	glfwSwapInterval(0);
 
+    return true;
 }
 
 bool Window::closed()
