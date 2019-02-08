@@ -14,6 +14,7 @@
 #define MAX_BUFFER_SIZE		MAX_SPRITES * SPRITE_SIZE
 #define MAX_INDICES_SIZE    MAX_SPRITES * 6
 
+class Texture;
 class IndexBuffer;
 class SpriteRenderer : public Renderer
 {
@@ -32,6 +33,7 @@ private:
 	unsigned int m_VAO;
 	unsigned int m_VBO;
 	IndexBuffer* m_IBO;
+    const Texture* m_Texture;
 
 	VertexData* m_Buffer;
 	int m_IndexCount;

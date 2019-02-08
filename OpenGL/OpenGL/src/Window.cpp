@@ -78,7 +78,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	std::cout << xpos << ", " << ypos << std::endl;
 	Window* win = (Window*) glfwGetWindowUserPointer(window);
 	win->m_MousePosX = xpos;
 	win->m_MousePosY = ypos;

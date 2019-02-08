@@ -7,20 +7,20 @@
 #include "SpriteRenderer.h"
 #include <math.h>
 #include "Texture.h"
-
+#include "RenderTexture.h"
 
 int main(void)
 {
-	Window window("hello", 960, 640);
-
+    int width = 960, height = 640;
+	Window window("hello", width, height);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
 	std::vector<Sprite*> spriteList;
-	for (int x = 0; x < 960; x += 10.f) {
-		for (int y = 0; y < 640; y += 10.f) {
+	for (int x = 0; x < 200; x += 100.f) {
+		for (int y = 0; y < 200; y += 100.f) {
 			auto sp = new Sprite("res/image/icon.png");
 			sp->setPosition(x, y);
 			sp->setColor(vec4(x / 960.0f, y / 640.0f, (x + y)/ (960.0f + 640.0f), 1.0f));
@@ -32,17 +32,16 @@ int main(void)
 	Shader shader("res/shaders/Basic.shader");
 	shader.bind();
 	
-	mat4 projection = mat4::orthographic(0, 960, 0, 640, 0, 1000);
+	mat4 projection = mat4::orthographic(0, width, 0, height, 0, 1000);
 	mat4 model(1.0f);
 	shader.setUniform1i("u_Texture", 0);
 	shader.setUniformMatrix4fv("MVP", 1, GL_FALSE, (projection * model).elements);
 
-
-	Texture texture("res/image/icon.png");
-	texture.bind();
-
 	SpriteRenderer render;
-
+    
+    RenderTexture rt(width, height);
+    bool first = true;
+    
 	unsigned int frame = 0;
 	double lastTime = glfwGetTime();
 	while (!window.closed())
@@ -51,18 +50,31 @@ int main(void)
 
 		float x, y;
 		window.getMousePosition(x, y);
-		shader.setUniform2f("light_pos",  x / 960 - 0.5, (640.0f - y) / 640 - 0.5);
+		shader.setUniform2f("light_pos",  x / 480 - 1.0, (640.0f - y) / 320 - 1.0);
 
-		render.begin();
-		
-		for (auto sp : spriteList) {
-			render.submit(sp);
-		}
+        render.begin();
 
-		render.end();
+        for (auto sp : spriteList) {
+            render.submit(sp);
+        }
 
-		render.flush();
+        render.end();
 
+        render.flush();
+        
+        if(first) {
+            rt.begin();
+            render.begin();
+            for (auto sp : spriteList) {
+                render.submit(sp);
+            }
+            render.end();
+            render.flush();
+            rt.end();
+            rt.saveToFile("res/image/hello.png");
+            first = false;
+        }
+        
 
 		frame++;
 		double currentTime = glfwGetTime();

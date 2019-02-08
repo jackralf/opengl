@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B40CF6C42206E0AA003AA32F /* RenderTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B40CF6C22206E0AA003AA32F /* RenderTexture.cpp */; };
+		B48813622205AB2600B3892B /* stb_image_write.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B48813612205AB2600B3892B /* stb_image_write.cpp */; };
+		B4895745220D71EF009F7E7F /* TextureCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4895744220D71EF009F7E7F /* TextureCache.cpp */; };
 		B4B5BCF22205221E00AAB9BE /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B5BB502205221D00AAB9BE /* Window.cpp */; };
 		B4B5BCF32205221E00AAB9BE /* mat4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B5BB592205221D00AAB9BE /* mat4.cpp */; };
 		B4B5BCF42205221E00AAB9BE /* vec4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B5BB5A2205221D00AAB9BE /* vec4.cpp */; };
@@ -44,6 +47,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B40CF6C22206E0AA003AA32F /* RenderTexture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTexture.cpp; sourceTree = "<group>"; };
+		B40CF6C52206E0CF003AA32F /* RenderTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderTexture.h; sourceTree = "<group>"; };
+		B48813602205AB0300B3892B /* stb_image_write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image_write.h; sourceTree = "<group>"; };
+		B48813612205AB2600B3892B /* stb_image_write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image_write.cpp; sourceTree = "<group>"; };
+		B4895743220D71DA009F7E7F /* TextureCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureCache.h; sourceTree = "<group>"; };
+		B4895744220D71EF009F7E7F /* TextureCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureCache.cpp; sourceTree = "<group>"; };
 		B4B5BB432205218400AAB9BE /* OpenGL-mac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "OpenGL-mac"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4B5BB502205221D00AAB9BE /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		B4B5BB512205221D00AAB9BE /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
@@ -533,20 +542,22 @@
 		B4B5BB5F2205221D00AAB9BE /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				B4B5BB602205221D00AAB9BE /* VertexBuffer.cpp */,
-				B4B5BB612205221D00AAB9BE /* renderer */,
-				B4B5BB672205221D00AAB9BE /* IndexBuffer.h */,
-				B4B5BB682205221D00AAB9BE /* Shader.h */,
-				B4B5BB692205221D00AAB9BE /* VertexArray.cpp */,
-				B4B5BB6A2205221D00AAB9BE /* Sprite.cpp */,
-				B4B5BB6B2205221D00AAB9BE /* Texture.cpp */,
-				B4B5BB6C2205221D00AAB9BE /* Shader.cpp */,
-				B4B5BB6D2205221D00AAB9BE /* Sprite.h */,
-				B4B5BB6E2205221D00AAB9BE /* VertexBufferLayout.h */,
-				B4B5BB6F2205221D00AAB9BE /* VertexArray.h */,
-				B4B5BB702205221D00AAB9BE /* Texture.h */,
-				B4B5BB712205221D00AAB9BE /* VertexBuffer.h */,
 				B4B5BB722205221D00AAB9BE /* IndexBuffer.cpp */,
+				B4B5BB672205221D00AAB9BE /* IndexBuffer.h */,
+				B4B5BB612205221D00AAB9BE /* renderer */,
+				B4B5BB6C2205221D00AAB9BE /* Shader.cpp */,
+				B4B5BB682205221D00AAB9BE /* Shader.h */,
+				B4B5BB6A2205221D00AAB9BE /* Sprite.cpp */,
+				B4B5BB6D2205221D00AAB9BE /* Sprite.h */,
+				B4B5BB6B2205221D00AAB9BE /* Texture.cpp */,
+				B4B5BB702205221D00AAB9BE /* Texture.h */,
+				B4B5BB692205221D00AAB9BE /* VertexArray.cpp */,
+				B4B5BB6F2205221D00AAB9BE /* VertexArray.h */,
+				B4B5BB602205221D00AAB9BE /* VertexBuffer.cpp */,
+				B4B5BB712205221D00AAB9BE /* VertexBuffer.h */,
+				B4B5BB6E2205221D00AAB9BE /* VertexBufferLayout.h */,
+				B4895743220D71DA009F7E7F /* TextureCache.h */,
+				B4895744220D71EF009F7E7F /* TextureCache.cpp */,
 			);
 			path = graphics;
 			sourceTree = "<group>";
@@ -559,6 +570,8 @@
 				B4B5BB642205221D00AAB9BE /* Renderer.h */,
 				B4B5BB652205221D00AAB9BE /* SpriteRenderer.cpp */,
 				B4B5BB662205221D00AAB9BE /* Renderer.cpp */,
+				B40CF6C22206E0AA003AA32F /* RenderTexture.cpp */,
+				B40CF6C52206E0CF003AA32F /* RenderTexture.h */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
@@ -577,6 +590,8 @@
 			children = (
 				B4B5BB752205221D00AAB9BE /* stb_image.h */,
 				B4B5BB762205221D00AAB9BE /* stb_image.cpp */,
+				B48813602205AB0300B3892B /* stb_image_write.h */,
+				B48813612205AB2600B3892B /* stb_image_write.cpp */,
 			);
 			path = stb_image;
 			sourceTree = "<group>";
@@ -1079,13 +1094,16 @@
 				B4B5BCFB2205221E00AAB9BE /* VertexArray.cpp in Sources */,
 				B4B5BCF82205221E00AAB9BE /* VertexBuffer.cpp in Sources */,
 				B4B5BCF52205221E00AAB9BE /* vec2.cpp in Sources */,
+				B4895745220D71EF009F7E7F /* TextureCache.cpp in Sources */,
 				B4B5BCFC2205221E00AAB9BE /* Sprite.cpp in Sources */,
+				B48813622205AB2600B3892B /* stb_image_write.cpp in Sources */,
 				B4B5BCF72205221E00AAB9BE /* Application.cpp in Sources */,
 				B4B5BCF32205221E00AAB9BE /* mat4.cpp in Sources */,
 				B4B5BCFD2205221E00AAB9BE /* Texture.cpp in Sources */,
 				B4B5BD002205221E00AAB9BE /* stb_image.cpp in Sources */,
 				B4B5BCF62205221E00AAB9BE /* vec3.cpp in Sources */,
 				B4B5BCF42205221E00AAB9BE /* vec4.cpp in Sources */,
+				B40CF6C42206E0AA003AA32F /* RenderTexture.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

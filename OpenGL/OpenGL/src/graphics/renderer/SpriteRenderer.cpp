@@ -60,6 +60,14 @@ void SpriteRenderer::submit(const Renderable* renderable)
 	auto& position = renderable->getPosition();
 	auto& size = renderable->getSize();
 	auto& color = renderable->getColor();
+    auto texture = renderable->getTexture();
+    if(m_Texture) {
+        if(m_Texture->getTextureId() != texture->getTextureId()) {
+            //TODO flush
+        }
+    } else {
+        m_Texture = texture;
+    }
 
 
 	int r = color.x * 255.0f;
@@ -103,6 +111,7 @@ void SpriteRenderer::flush()
 {
 	glBindVertexArray(m_VAO);
 	m_IBO->bind();
+    m_Texture->bind();
 	
 	glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
 

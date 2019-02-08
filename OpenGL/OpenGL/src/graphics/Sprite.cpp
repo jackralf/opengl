@@ -1,14 +1,13 @@
 #include "Sprite.h"
 
-#include "Texture.h"
+#include "TextureCache.h"
 #include "SpriteRenderer.h"
 
 Sprite::Sprite(String filepath)
 {
 	m_Transform = mat4(1.0f);
-	//m_Texture = new Texture(filepath);
-	//m_Size = m_Texture->getContentSize();
-	m_Size = { 10,10 };
+    m_Texture = TextureCache::getInstance()->getTexture(filepath);
+    m_Size = m_Texture->getContentSize();
 }
 
 Sprite::~Sprite()
