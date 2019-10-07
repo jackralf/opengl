@@ -10,7 +10,7 @@
 #define TextureCache_h
 
 #include "defines.h"
-#include<map>
+#include<unordered_map>
 
 class Texture;
 class TextureCache
@@ -33,7 +33,7 @@ private:
     TextureCache();
     static TextureCache* _instance;
     
-    std::map<String, Texture*> m_TextureMap;
+    std::unordered_map<String, Texture*> m_TextureMap;
 };
 
 

@@ -7,6 +7,7 @@ class Sprite : public Renderable
 {
 public:
 	Sprite(String filepath);
+    Sprite(Texture* texture);
 	~Sprite();
 
 	void setPosition(float x, float y);

@@ -10,6 +10,13 @@ Sprite::Sprite(String filepath)
     m_Size = m_Texture->getContentSize();
 }
 
+Sprite::Sprite(Texture* texture)
+{
+    m_Transform = mat4(1.0f);
+    m_Texture = texture;
+    m_Size = m_Texture->getContentSize();
+}
+
 Sprite::~Sprite()
 {
 	m_Texture->unbind();
