@@ -3,8 +3,8 @@
   "latestVersionCode": "10",
   "url": "https://github.com/jackralf/opengl/raw/master/app-debug.apk",
   "releaseNotes": [
-    "- First evolution",
-    "- Second evolution",
+    "- hello",
+    "- world",
     "- Bug fixes"
   ]
 }
